@@ -1,11 +1,11 @@
-//@ts-ignore
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 
+import { env } from "~/env";
 import { TRPCReactProvider } from "~/trpc/react";
-import { Theme } from "@radix-ui/themes";
+import { Theme, ThemePanel } from "@radix-ui/themes";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -26,6 +26,7 @@ export default function RootLayout({
       <body>
         <Theme>
           <TRPCReactProvider>{children}</TRPCReactProvider>
+          { env.NODE_ENV === "development" ? <ThemePanel /> : null }
         </Theme>
       </body>
     </html>

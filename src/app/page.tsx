@@ -4,7 +4,7 @@ import { LatestPost } from "~/app/_components/post";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 
-import { Box, Button, Container, Flex, Grid, Heading, Text } from "@radix-ui/themes";
+import { Box, Button, Flex, Grid, Heading, Text } from "@radix-ui/themes";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
