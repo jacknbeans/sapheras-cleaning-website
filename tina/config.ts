@@ -1,4 +1,7 @@
 import { defineConfig } from "tinacms";
+import { amazingTitleBlock } from "~/app/_templates/amazing-header/amazing-header.template";
+import { beautifulImageBlock } from "~/app/_templates/beautiful-image/beautiful-image.template";
+import { incredibleBodyBlock } from "~/app/_templates/incredible-body/incredible-body.template";
 
 // Your hosting provider likely exposes this as an environment variable
 const branch =
@@ -40,12 +43,16 @@ export default defineConfig({
         path: "content/first",
         fields: [
           {
-            type: "string",
-            name: "title",
-            label: "Title",
-            isTitle: true,
-            required: true,
-          }
+            type: "object",
+            name: "blocks",
+            label: "Blocks",
+            list: true,
+            templates: [
+              amazingTitleBlock,
+              beautifulImageBlock,
+              incredibleBodyBlock,
+            ],
+          },
         ],
         ui: {
           router: ({ document }) => {
