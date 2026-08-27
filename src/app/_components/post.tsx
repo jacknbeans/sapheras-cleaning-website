@@ -1,11 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { api } from "~/trpc/react";
 import { Button, Container, Flex, Text } from "@radix-ui/themes";
+import { client as tinaClient } from "../../../tina/__generated__/client";
+import AwesomeContent from "./awesome-content";
 
 export function LatestPost() {
+  const [graphQLResponse, setGraphQLResponse] = useState<Awaited<ReturnType<typeof tinaClient.queries.my_first_collection>>>();
+  useEffect(() => {
+    const fetchContent = async () => {
+      const result = await tinaClient.queries.my_first_collection({
+        relativePath: "Hello-World.md",
+      });
+      setGraphQLResponse(result);
+    };
+
+    fetchContent();
+  }, []);
+
   const [latestPost] = api.post.getLatest.useSuspenseQuery();
 
   const utils = api.useUtils();
@@ -19,6 +33,8 @@ export function LatestPost() {
 
   return (
     <Container width={"100%"} size={"1"}>
+      { !graphQLResponse && <Text as="p">Loading...</Text>}
+      { graphQLResponse && <AwesomeContent content={ graphQLResponse } /> }
       { latestPost ? (
           <Text as="p" truncate>Your most recent post: { latestPost.name }</Text>
         ) : (
